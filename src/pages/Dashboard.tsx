@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Settings, Camera, Sparkles, ChevronRight } from 'lucide-react';
+import { Settings, Camera, Sparkles, ChevronRight, Trash2 } from 'lucide-react';
 import CircleProgress from '@/components/CircleProgress';
 import FoodEntryDialog from '@/components/FoodEntryDialog';
 import FoodDetailSheet from '@/components/FoodDetailSheet';
@@ -8,7 +8,7 @@ import SettingsDialog from '@/components/SettingsDialog';
 import AdDialog from '@/components/AdDialog';
 import InfoBalloon from '@/components/InfoBalloon';
 import { SteakIcon, OilDropIcon, SugarCubesIcon } from '@/components/MacroIcons';
-import { getProfile, getTodayTotals, getTodayEntries } from '@/lib/storage';
+import { getProfile, getTodayTotals, getTodayEntries, deleteEntry } from '@/lib/storage';
 import { calculateDailyMacroGoals } from '@/lib/calories';
 import { useNavigate } from 'react-router-dom';
 import { MASCOT_LOGO } from '@/lib/mascot';
@@ -221,6 +221,13 @@ const Dashboard = () => {
                   <p className="text-xs text-muted-foreground">{entry.quantity}</p>
                 </div>
                 <p className="text-sm font-extrabold text-foreground whitespace-nowrap">{entry.nutrients.calories} kcal</p>
+                <button
+                  onClick={() => { deleteEntry(entry.id); refresh(); }}
+                  className="p-2 rounded-xl hover:bg-destructive/10 transition-colors flex-shrink-0"
+                  aria-label="Remover alimento"
+                >
+                  <Trash2 className="w-4 h-4 text-destructive" />
+                </button>
               </motion.div>
             ))}
           </div>
