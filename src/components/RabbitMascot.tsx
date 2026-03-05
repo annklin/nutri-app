@@ -21,7 +21,7 @@ const RabbitMascot = ({ message, size = 80 }: RabbitMascotProps) => {
       )}
       <motion.img
         src={MASCOT_FULL}
-        alt="Mascote coelho"
+        alt="Mascote"
         style={{ width: size, height: size }}
         className="object-contain animate-bounce-gentle"
         initial={{ scale: 0 }}
