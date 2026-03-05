@@ -1,8 +1,9 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Trash2 } from 'lucide-react';
+import { X, Trash2, Lock } from 'lucide-react';
 import { FoodEntry, NutrientInfo } from '@/types';
 import { calculateDailyMacroGoals } from '@/lib/calories';
-import { deleteEntry, getTodayEntries, getTodayTotals } from '@/lib/storage';
+import { deleteEntry, getTodayEntries, getTodayTotals, isPremium } from '@/lib/storage';
+import { useNavigate } from 'react-router-dom';
 
 interface FoodDetailSheetProps {
   open: boolean;
@@ -46,9 +47,11 @@ const NutrientRow = ({ label, value, goal, unit, color }: {
 };
 
 const FoodDetailSheet = ({ open, onClose, dailyGoal, onUpdate }: FoodDetailSheetProps) => {
+  const navigate = useNavigate();
   const entries = getTodayEntries();
   const totals = getTodayTotals();
   const goals = calculateDailyMacroGoals(dailyGoal);
+  const premium = isPremium();
 
   const handleDelete = (id: string) => {
     deleteEntry(id);
@@ -81,16 +84,32 @@ const FoodDetailSheet = ({ open, onClose, dailyGoal, onUpdate }: FoodDetailSheet
             </button>
           </div>
 
-          {/* Nutrient bars */}
+          {/* Nutrient bars - Free: calories, protein, fat, sugar */}
           <div className="space-y-4 mb-6">
             <NutrientRow label="🔥 Calorias" value={totals.calories} goal={dailyGoal} unit="kcal" color="hsl(var(--primary))" />
             <NutrientRow label="🥩 Proteína" value={totals.protein} goal={goals.protein} unit="g" color="hsl(var(--protein))" />
-            <NutrientRow label="🍞 Carboidratos" value={totals.carbs} goal={goals.carbs} unit="g" color="hsl(var(--carbs))" />
-            <NutrientRow label="🧊 Açúcar" value={totals.sugar} goal={goals.sugar} unit="g" color="hsl(var(--sugar))" />
             <NutrientRow label="🧈 Gordura" value={totals.fat} goal={goals.fat} unit="g" color="hsl(var(--fat))" />
-            <NutrientRow label="🧂 Sódio" value={totals.sodium} goal={goals.sodium} unit="mg" color="hsl(var(--sodium))" />
-            {totals.fiber !== undefined && totals.fiber > 0 && (
-              <NutrientRow label="🌾 Fibra" value={totals.fiber} goal={25} unit="g" color="hsl(var(--primary))" />
+            <NutrientRow label="🧊 Açúcar" value={totals.sugar} goal={goals.sugar} unit="g" color="hsl(var(--sugar))" />
+
+            {premium ? (
+              <>
+                <NutrientRow label="🍞 Carboidratos" value={totals.carbs} goal={goals.carbs} unit="g" color="hsl(var(--carbs))" />
+                <NutrientRow label="🧂 Sódio" value={totals.sodium} goal={goals.sodium} unit="mg" color="hsl(var(--sodium))" />
+                {totals.fiber !== undefined && totals.fiber > 0 && (
+                  <NutrientRow label="🌾 Fibra" value={totals.fiber} goal={25} unit="g" color="hsl(var(--primary))" />
+                )}
+              </>
+            ) : (
+              <button
+                onClick={() => { onClose(); navigate('/premium'); }}
+                className="w-full p-4 bg-accent rounded-xl text-center space-y-1"
+              >
+                <div className="flex items-center justify-center gap-2">
+                  <Lock className="w-4 h-4 text-primary" />
+                  <p className="text-sm font-bold text-foreground">Macros avançados</p>
+                </div>
+                <p className="text-xs text-muted-foreground">Carboidratos, Sódio, Fibra e mais — Seja Premium!</p>
+              </button>
             )}
           </div>
 
