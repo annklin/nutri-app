@@ -221,6 +221,13 @@ const Dashboard = () => {
                   <p className="text-xs text-muted-foreground">{entry.quantity}</p>
                 </div>
                 <p className="text-sm font-extrabold text-foreground whitespace-nowrap">{entry.nutrients.calories} kcal</p>
+                <button
+                  onClick={() => { deleteEntry(entry.id); refresh(); }}
+                  className="p-2 rounded-xl hover:bg-destructive/10 transition-colors flex-shrink-0"
+                  aria-label="Remover alimento"
+                >
+                  <Trash2 className="w-4 h-4 text-destructive" />
+                </button>
               </motion.div>
             ))}
           </div>
