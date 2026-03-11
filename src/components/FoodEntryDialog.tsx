@@ -33,7 +33,7 @@ interface AIResponse {
 }
 
 const FoodEntryDialog = ({ open, onClose, onAdded, dailyGoal, onShowAd }: FoodEntryDialogProps) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AIResponse | null>(null);
@@ -56,6 +56,7 @@ const FoodEntryDialog = ({ open, onClose, onAdded, dailyGoal, onShowAd }: FoodEn
           text: text || undefined,
           imageBase64: photo || undefined,
           mode: photo ? 'photo' : 'text',
+          language: language,
         },
       });
 
