@@ -64,11 +64,6 @@ const LanguageSelect = ({ onComplete }: LanguageSelectProps) => {
               <p className="text-sm font-bold text-foreground">{lang.nativeName}</p>
               <p className="text-xs text-muted-foreground">{lang.name}</p>
             </div>
-            {lang.code === detected && (
-              <span className="text-[10px] font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-full">
-                {t('langSelect_detected')}
-              </span>
-            )}
             {selected === lang.code && (
               <div className="w-6 h-6 rounded-full gradient-primary flex items-center justify-center">
                 <Check className="w-3.5 h-3.5 text-primary-foreground" />

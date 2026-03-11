@@ -12,7 +12,7 @@ const LanguageContext = createContext<LanguageContextType | null>(null);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const saved = getSavedLanguage();
-  const [language, setLang] = useState<Language>(saved || detectDeviceLanguage());
+  const [language, setLang] = useState<Language>(saved || getDefaultLanguage());
   const hasLanguage = !!saved;
 
   const setLanguage = useCallback((lang: Language) => {

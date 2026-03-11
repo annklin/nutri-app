@@ -34,21 +34,7 @@ export function saveLanguage(lang: Language) {
   localStorage.setItem(LANG_KEY, lang);
 }
 
-export function detectDeviceLanguage(): Language {
-  const browserLang = navigator.language || (navigator as any).userLanguage || 'en';
-  const lower = browserLang.toLowerCase();
-
-  if (lower.startsWith('pt')) return 'pt-BR';
-  if (lower.startsWith('es')) return 'es';
-  if (lower.startsWith('fr')) return 'fr';
-  if (lower.startsWith('de')) return 'de';
-  if (lower.startsWith('it')) return 'it';
-  if (lower.startsWith('ru')) return 'ru';
-  if (lower.startsWith('zh')) return 'zh';
-  if (lower.startsWith('ja')) return 'ja';
-  if (lower.startsWith('ko')) return 'ko';
-  if (lower.startsWith('ar')) return 'ar';
-  if (lower.startsWith('hi')) return 'hi';
+export function getDefaultLanguage(): Language {
   return 'en';
 }
 
